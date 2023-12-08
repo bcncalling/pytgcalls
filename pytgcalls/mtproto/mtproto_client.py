@@ -1,11 +1,11 @@
-from typing import Any
-from typing import Callable
-from typing import List
-from typing import Optional
+from typing import Any, Callable, List, Optional
 
 from ..exceptions import InvalidMTProtoClient
 from ..types.groups.group_call_participant import GroupCallParticipant
 from .bridged_client import BridgedClient
+from .hydrogram_client import HydrogramClient
+from .pyrogram_client import PyrogramClient
+from .telethon_client import TelethonClient
 
 
 class MtProtoClient:
@@ -16,19 +16,16 @@ class MtProtoClient:
     ):
         self._bind_client: Optional[BridgedClient] = None
         if client.__class__.__module__ == 'pyrogram.client':
-            from .pyrogram_client import PyrogramClient
             self._bind_client = PyrogramClient(
                 cache_duration,
                 client,
             )
         elif client.__class__.__module__ == 'telethon.client.telegramclient':
-            from .telethon_client import TelethonClient
             self._bind_client = TelethonClient(
                 cache_duration,
                 client,
             )
         elif client.__class__.__module__ == 'hydrogram.client':
-            from .hydrogram_client import HydrogramClient
             self._bind_client = HydrogramClient(
                 cache_duration,
                 client,
